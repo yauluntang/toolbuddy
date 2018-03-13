@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {Component, ViewChild} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 
-import { Settings } from '../../providers/providers';
+import {Settings, User} from '../../providers/providers';
 
 /**
  * The Settings page is a simple form that syncs with a Settings provider
@@ -21,7 +20,6 @@ export class SettingsPage {
 
   settingsReady = false;
 
-  form: FormGroup;
 
   profileSettings = {
     page: 'profile',
@@ -34,45 +32,51 @@ export class SettingsPage {
 
   subSettings: any = SettingsPage;
 
-  constructor(public navCtrl: NavController,
+
+  tempUserData: any;
+  isEdit: boolean;
+
+  @ViewChild('form') form;
+
+
+  constructor(public app: App, public navCtrl: NavController,public user: User,
     public settings: Settings,
-    public formBuilder: FormBuilder,
     public navParams: NavParams,
     public translate: TranslateService) {
+    this.tempUserData = {};
+    this.isEdit = false;
   }
 
-  _buildForm() {
-    let group: any = {
-      option1: [this.options.option1],
-      option2: [this.options.option2],
-      option3: [this.options.option3]
-    };
 
-    switch (this.page) {
-      case 'main':
-        break;
-      case 'profile':
-        group = {
-          option4: [this.options.option4]
-        };
-        break;
+
+  edit(){
+    this.isEdit = true;
+    if ( this.user.userData ) {
+      this.tempUserData = JSON.parse(JSON.stringify(this.user.userData));
     }
-    this.form = this.formBuilder.group(group);
+  }
 
-    // Watch the form for changes, and
-    this.form.valueChanges.subscribe((v) => {
-      this.settings.merge(this.form.value);
+  cancel(){
+    this.isEdit = false;
+  }
+
+  done(){
+    this.user.userData = this.tempUserData;
+    this.user.updateUser().then( (res)=>{
+      this.isEdit = false;
+    }).catch( (err)=>{
+
     });
   }
 
+  _buildForm() {
+  }
+
   ionViewDidLoad() {
-    // Build an empty form for the template to render
-    this.form = this.formBuilder.group({});
   }
 
   ionViewWillEnter() {
-    // Build an empty form for the template to render
-    this.form = this.formBuilder.group({});
+
 
     this.page = this.navParams.get('page') || this.page;
     this.pageTitleKey = this.navParams.get('pageTitleKey') || this.pageTitleKey;
@@ -91,5 +95,16 @@ export class SettingsPage {
 
   ngOnChanges() {
     console.log('Ng All Changes');
+  }
+  logout(){
+    this.user.logout().then(res=>{
+      this.app.getRootNav().setRoot('WelcomePage');
+    });
+  }
+
+  gotoTutorial(){
+    this.settings.setValue('skipTutorial', false).then( ()=> {
+      this.app.getRootNav().setRoot('TutorialPage');
+    });
   }
 }

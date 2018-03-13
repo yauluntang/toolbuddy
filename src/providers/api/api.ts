@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+declare var firebase:any;
 /**
  * Api is a generic REST Api handler. Set your API url first.
  */
@@ -9,6 +10,15 @@ export class Api {
   url: string = 'https://example.com/api/v1';
 
   constructor(public http: HttpClient) {
+    var config = {
+      apiKey: "AIzaSyBV3zOFl_NFtibGgtLcyidQF7TN-hS0RRE",
+      authDomain: "tool-buddy.firebaseapp.com",
+      databaseURL: "https://tool-buddy.firebaseio.com",
+      projectId: "tool-buddy",
+      storageBucket: "tool-buddy.appspot.com",
+      messagingSenderId: "641522113822"
+    };
+    firebase.initializeApp(config);
   }
 
   get(endpoint: string, params?: any, reqOpts?: any) {

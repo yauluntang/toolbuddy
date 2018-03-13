@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, MenuController, NavController, Platform } from 'ionic-angular';
 
 import { TranslateService } from '@ngx-translate/core';
+import {Settings} from "../../providers/settings/settings";
 
 export interface Slide {
   title: string;
@@ -18,9 +19,10 @@ export class TutorialPage {
   slides: Slide[];
   showSkip = true;
   dir: string = 'ltr';
-
-  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService, public platform: Platform) {
+  loaded: boolean;
+  constructor(public navCtrl: NavController, public settings: Settings, public menu: MenuController, translate: TranslateService, public platform: Platform) {
     this.dir = platform.dir();
+    this.loaded = false;
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
       "TUTORIAL_SLIDE2_TITLE",
@@ -51,6 +53,9 @@ export class TutorialPage {
   }
 
   startApp() {
+
+    this.settings.setValue('skipTutorial', true);
+
     this.navCtrl.setRoot('WelcomePage', {}, {
       animate: true,
       direction: 'forward'
@@ -64,6 +69,18 @@ export class TutorialPage {
   ionViewDidEnter() {
     // the root left menu should be disabled on the tutorial page
     this.menu.enable(false);
+
+    this.settings.getValue('skipTutorial').then(res=>{
+
+       if ( res ) {
+         this.startApp()
+       }
+       else {
+         this.loaded = true;
+       }
+    });
+
+
   }
 
   ionViewWillLeave() {

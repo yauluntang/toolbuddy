@@ -2,13 +2,72 @@
 
   <ion-navbar>
     <ion-title>{{ pageTitle }}</ion-title>
+    <ion-buttons start>
+      <button icon-only ion-button *ngIf="isEdit" (click)="cancel()">
+
+        <ion-icon name="md-close" ></ion-icon>
+      </button>
+    </ion-buttons>
+
+
+    <ion-buttons end>
+      <button icon-only ion-button (click)="edit()" *ngIf="!isEdit">
+
+        <ion-icon name="clipboard"></ion-icon>
+      </button>
+
+      <button icon-only ion-button (click)="done()" *ngIf="isEdit" [disabled]="!form.valid">
+
+        <ion-icon name="md-checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+
+
   </ion-navbar>
 
 </ion-header>
 
 <ion-content>
 
-  <form [formGroup]="form" *ngIf="settingsReady">
+  <form #form="ngForm">
+
+    <ion-list *ngIf="page == 'main'">
+      <ion-item>
+        <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
+        <div item-content *ngIf="!isEdit">
+          {{user?.userData?.name}}
+        </div>
+        <ion-input *ngIf="isEdit" type="text" [(ngModel)]="tempUserData.name" name="name" placeholder="name" maxlength="50" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>{{ 'ZIP_CODE' | translate }}</ion-label>
+        <div item-content *ngIf="!isEdit">
+          {{user?.userData?.zip}}
+        </div>
+        <ion-input *ngIf="isEdit" type="tel" [(ngModel)]="tempUserData.zip" name="zip" placeholder="12345" maxlength="5" pattern="[0-9]{5}" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>{{ 'PHONE' | translate }}</ion-label>
+        <div item-content *ngIf="!isEdit">
+          {{user?.userData?.phone}}
+        </div>
+        <ion-input [brmasker]="{mask:'(000) 000-0000', len:14}" *ngIf="isEdit" type="tel" [(ngModel)]="tempUserData.phone" validatePhone name="phone" placeholder="(000) 000-0000" maxlength="14"></ion-input>
+      </ion-item>
+
+
+      <ion-item *ngIf="!isEdit">
+        <button type="button" (click)="gotoTutorial()" class="btn btn-block btn-secondary btn-lg">{{ 'TUTORIAL' | translate }}</button>
+      </ion-item>
+
+      <ion-item *ngIf="!isEdit">
+        <button type="button" (click)="logout()" class="btn btn-block btn-danger btn-lg">{{ 'LOGOUT' | translate }}</button>
+      </ion-item>
+
+    </ion-list>
+
+    <!--
     <ion-list *ngIf="page == 'main'">
       <ion-item>
         <ion-label>{{ 'SETTINGS_OPTION1' | translate }}</ion-label>
@@ -39,7 +98,7 @@
         <ion-label>{{ 'SETTINGS_OPTION4' | translate }}</ion-label>
         <ion-input formControlName="option4"></ion-input>
       </ion-item>
-    </ion-list>
+    </ion-list>-->
   </form>
 
 </ion-content>

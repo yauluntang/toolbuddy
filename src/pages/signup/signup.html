@@ -8,35 +8,46 @@
 
 
 <ion-content>
-  <form (submit)="doSignup()">
-    <ion-list>
+  <form (submit)="doSignup()" method="post" action="" #form="ngForm">
 
+
+    <ion-list>
+      <div padding *ngIf="errorMessage">
+        <div class="alert alert-danger" role="alert">
+          <span><ion-icon name="warning"></ion-icon>
+{{errorMessage}}</span>
+        </div>
+      </div>
       <ion-item>
         <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="account.name" name="name"></ion-input>
+        <ion-input type="text" [(ngModel)]="account.name" name="name" placeholder="name" maxlength="50" required></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
+        <ion-input type="email" [(ngModel)]="account.email" name="email" placeholder="user@domain.com" maxlength="200" required></ion-input>
+        <input type="email" [(ngModel)]="account.email" name="email">
       </ion-item>
 
-      <!--
-      Want to add a Username? Here you go:
 
       <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
+        <ion-label fixed>{{ 'ZIP_CODE' | translate }}</ion-label>
+        <ion-input type="tel" [(ngModel)]="account.zip" name="zip" placeholder="12345" maxlength="5" pattern="[0-9]{5}" required></ion-input>
       </ion-item>
-      -->
+
+      <ion-item>
+        <ion-label fixed>{{ 'PHONE' | translate }}</ion-label>
+        <ion-input [brmasker]="{mask:'(000) 000-0000', len:14}" type="tel" [(ngModel)]="account.phone" validatePhone name="phone" placeholder="(000) 000-0000" maxlength="14" required></ion-input>
+      </ion-item>
+
 
       <ion-item>
         <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="xxxxxx" required></ion-input>
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
+        <button type="submit"  class="btn btn-block btn-primary btn-lg" [disabled]="!form.valid">  <ion-icon name="checkbox-outline"></ion-icon>{{ 'SIGNUP_BUTTON' | translate }}</button>
       </div>
 
     </ion-list>

@@ -7,43 +7,21 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class Settings {
   private SETTINGS_KEY: string = '_settings';
-
   settings: any;
 
-  _defaults: any;
-  _readyPromise: Promise<any>;
-
-  constructor(public storage: Storage, defaults: any) {
-    this._defaults = defaults;
+  constructor(public storage: Storage) {
+    this.load();
   }
 
   load() {
     return this.storage.get(this.SETTINGS_KEY).then((value) => {
       if (value) {
         this.settings = value;
-        return this._mergeDefaults(this._defaults);
+        return this.settings;
       } else {
-        return this.setAll(this._defaults).then((val) => {
-          this.settings = val;
-        })
+        this.settings = {};
       }
     });
-  }
-
-  _mergeDefaults(defaults: any) {
-    for (let k in defaults) {
-      if (!(k in this.settings)) {
-        this.settings[k] = defaults[k];
-      }
-    }
-    return this.setAll(this.settings);
-  }
-
-  merge(settings: any) {
-    for (let k in settings) {
-      this.settings[k] = settings[k];
-    }
-    return this.save();
   }
 
   setValue(key: string, value: any) {
@@ -58,7 +36,12 @@ export class Settings {
   getValue(key: string) {
     return this.storage.get(this.SETTINGS_KEY)
       .then(settings => {
-        return settings[key];
+        if ( settings ) {
+          return settings[key];
+        }
+        else {
+          return null;
+        }
       });
   }
 
