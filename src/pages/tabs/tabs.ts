@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import {IonicPage, NavController, Tabs} from 'ionic-angular';
 
 import { Tab1Root } from '../pages';
 import { Tab2Root } from '../pages';
@@ -21,6 +21,9 @@ export class TabsPage {
   tab1Title = " ";
   tab2Title = " ";
   tab3Title = " ";
+  selectedIndex = 0;
+
+  @ViewChild('tabs') tabs: Tabs;
 
   constructor(public navCtrl: NavController, public translateService: TranslateService, public user: User, public items: Items) {
     translateService.get(['TAB1_TITLE', 'TAB2_TITLE', 'TAB3_TITLE']).subscribe(values => {
@@ -33,5 +36,16 @@ export class TabsPage {
   ionViewDidLoad() {
     this.user.subscribeUser();
     this.items.subscribeItems();
+
+  }
+
+  ionViewDidEnter(){
+    if ( !this.user.userData.registered ){
+      this.tabs.select(2);
+      //nav.setRoot(TabsPage,{index:3});
+    }
+    else {
+
+    }
   }
 }

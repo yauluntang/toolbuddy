@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CustomFormsModule } from 'ng2-validation'
-import { BrMaskerModule } from 'brmasker-ionic-3';
+import { BrMasker4Module } from 'brmasker4';
 import {PhoneValidator} from "./validators/phoneValidator";
 import {ItemRowComponent} from "./components/item-row";
 import {TranslateModule} from "@ngx-translate/core";
@@ -14,7 +14,7 @@ import {IonicModule} from "ionic-angular";
     TranslateModule,
     IonicModule,
     IonicStorageModule,
-    BrMaskerModule,
+    BrMasker4Module,
     CustomFormsModule
   ],
   declarations: [
@@ -22,7 +22,7 @@ import {IonicModule} from "ionic-angular";
     ItemRowComponent
   ],
   exports: [
-    BrMaskerModule,
+    BrMasker4Module,
     CustomFormsModule,
     PhoneValidator,
     ItemRowComponent

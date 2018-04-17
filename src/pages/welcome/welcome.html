@@ -7,10 +7,25 @@
     </div>
   </div>
   <div padding *ngIf="loaded">
+
+    <h5>Login Using Social Network</h5>
+    <div padding>
+      <button type="button" (click)="fbSignIn()" class="btn btn-block btn-primary btn-lg" style="background: #3b5998"><ion-icon name="logo-facebook"></ion-icon>{{ 'FACEBOOK_LOGIN' | translate }}</button>
+    </div>
+
+    <div padding>
+      <button type="button" (click)="googleSignIn()" class="btn btn-block btn-primary btn-lg" style="background: #FFFFFF; color: black; padding:5px"><img src="assets/img/google.svg" style="margin-right:10px"> {{ 'GOOGLE_LOGIN' | translate }}</button>
+    </div>
+
+
+
     <h5>If you have already register, please</h5>
     <div padding>
       <button type="button" (click)="login()" class="btn btn-block btn-primary btn-lg"><ion-icon name="log-in"></ion-icon>{{ 'LOGIN' | translate }}</button>
     </div>
+
+
+
     <h5>If you need to create an account</h5>
     <div padding>
       <button type="button" (click)="signup()" class="btn btn-block btn-secondary btn-lg">   <ion-icon name="checkbox-outline"></ion-icon>{{ 'SIGNUP' | translate }}</button>

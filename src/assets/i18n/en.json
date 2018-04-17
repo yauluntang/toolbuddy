@@ -43,12 +43,21 @@
   "WELCOME_TITLE": "Welcome",
   "ZIP_CODE": "Zip Code",
   "PHONE": "Phone",
+  "RENTER_QUESTION": "Do you want to be a renter?",
   "LOGIN_TITLE": "Sign in",
   "LOGIN_ERROR": "Unable to sign in. Please check your account information and try again.",
   "LOGIN_BUTTON": "Sign in",
   "SIGNUP_TITLE": "Sign up",
   "SIGNUP_ERROR": "Unable to create account. Please check your account information and try again.",
   "SIGNUP_BUTTON": "Sign up",
+  "LOGOUT":"Log Out",
+  "TAX_ID": "Tax ID",
+  "ADDRESS": "Address",
+  "LEGAL_NAME":"Legal Name",
+  "ENTITY_TYPE": "Entity Type",
+
+  "FACEBOOK_LOGIN": "Log in with Facebook",
+  "GOOGLE_LOGIN": "Log in with Google+",
 
   "LIST_MASTER_TITLE": "Your Items for Rental",
 

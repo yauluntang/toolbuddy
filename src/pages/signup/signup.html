@@ -29,18 +29,6 @@
         <input type="email" [(ngModel)]="account.email" name="email">
       </ion-item>
 
-
-      <ion-item>
-        <ion-label fixed>{{ 'ZIP_CODE' | translate }}</ion-label>
-        <ion-input type="tel" [(ngModel)]="account.zip" name="zip" placeholder="12345" maxlength="5" pattern="[0-9]{5}" required></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label fixed>{{ 'PHONE' | translate }}</ion-label>
-        <ion-input [brmasker]="{mask:'(000) 000-0000', len:14}" type="tel" [(ngModel)]="account.phone" validatePhone name="phone" placeholder="(000) 000-0000" maxlength="14" required></ion-input>
-      </ion-item>
-
-
       <ion-item>
         <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
         <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="xxxxxx" required></ion-input>

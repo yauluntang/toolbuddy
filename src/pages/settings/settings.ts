@@ -35,7 +35,8 @@ export class SettingsPage {
 
   tempUserData: any;
   isEdit: boolean;
-
+  vendor: boolean;
+  registrationSteps: string;
   @ViewChild('form') form;
 
 
@@ -45,6 +46,8 @@ export class SettingsPage {
     public translate: TranslateService) {
     this.tempUserData = {};
     this.isEdit = false;
+    this.vendor = false;
+    this.registrationSteps = 'customer';
   }
 
 
@@ -69,6 +72,22 @@ export class SettingsPage {
     });
   }
 
+  continue(){
+    if ( this.registrationSteps === 'customer' )
+      if ( this.tempUserData.vendor ){
+        this.registrationSteps = 'vendor';
+      }
+      else {
+        this.done()
+      }
+    else {
+      this.registrationSteps = 'customer';
+      this.done()
+    }
+
+
+  }
+
   _buildForm() {
   }
 
@@ -77,6 +96,9 @@ export class SettingsPage {
 
   ionViewWillEnter() {
 
+    if ( !this.user.userData.registered ){
+      this.edit();
+    }
 
     this.page = this.navParams.get('page') || this.page;
     this.pageTitleKey = this.navParams.get('pageTitleKey') || this.pageTitleKey;
@@ -97,6 +119,7 @@ export class SettingsPage {
     console.log('Ng All Changes');
   }
   logout(){
+    this.user.userData = null;
     this.user.logout().then(res=>{
       this.app.getRootNav().setRoot('WelcomePage');
     });

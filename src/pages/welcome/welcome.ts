@@ -21,6 +21,19 @@ export class WelcomePage {
     this.loaded = false;
   }
 
+  fbSignIn(){
+    this.user.fbSignIn().then((resp)=>{
+      this.navCtrl.push(MainPage);
+    });
+  }
+
+  googleSignIn(){
+    this.user.googleSignIn().then((resp)=>{
+      this.navCtrl.push(MainPage);
+    });
+  }
+
+
   login() {
     this.navCtrl.push('LoginPage');
   }

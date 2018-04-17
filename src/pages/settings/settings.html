@@ -1,3 +1,11 @@
+<!--
+<header class="toolbar toolbar-md">
+  <div class="toolbar-content toolbar-content-md" ng-reflect-klass="toolbar-content" ng-reflect-ng-class="toolbar-content-md">
+    <ion-title class="title title-md"><div class="toolbar-title toolbar-title-md" ng-reflect-klass="toolbar-title" ng-reflect-ng-class="toolbar-title-md">Search</div></ion-title>
+  </div>
+</header>
+-->
+
 <ion-header>
 
   <ion-navbar>
@@ -26,7 +34,27 @@
   </ion-navbar>
 
 </ion-header>
+<!--
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <button icon-only ion-button (click)="edit()" *ngIf="!isEdit">
+    <ion-icon name="clipboard"></ion-icon>
+  </button>
+
+
+  <button icon-only ion-button *ngIf="isEdit" (click)="cancel()">
+    <ion-icon name="md-close" ></ion-icon>
+  </button>
+
+  <button icon-only ion-button (click)="done()" *ngIf="isEdit" [disabled]="!form.valid">
+    <ion-icon name="md-checkmark"></ion-icon>
+  </button>
+</nav>-->
+<!--
 <ion-content>
 
   <form #form="ngForm">
@@ -67,38 +95,121 @@
 
     </ion-list>
 
-    <!--
-    <ion-list *ngIf="page == 'main'">
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION1' | translate }}</ion-label>
-        <ion-toggle formControlName="option1"></ion-toggle>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION2' | translate }}</ion-label>
-        <ion-input formControlName="option2"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION3' | translate }}</ion-label>
-        <ion-select formControlName="option3">
-          <ion-option value="1" checked="true">1</ion-option>
-          <ion-option value="2">2</ion-option>
-          <ion-option value="3">3</ion-option>
-        </ion-select>
-      </ion-item>
-
-      <button ion-item [navPush]="subSettings" [navParams]="profileSettings">
-        {{ 'SETTINGS_PROFILE_BUTTON' | translate }}
-      </button>
-    </ion-list>
-
-    <ion-list *ngIf="page == 'profile'">
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION4' | translate }}</ion-label>
-        <ion-input formControlName="option4"></ion-input>
-      </ion-item>
-    </ion-list>-->
   </form>
 
+</ion-content>-->
+<ion-content>
+  <div ion-fixed class="fixed-scroll">
+
+    <a (click)="registrationSteps='customer'">Customer</a> <a (click)="registrationSteps='vendor'"> Vendor</a>
+
+
+      <div >
+        <div style="width: 100%; height: 2000px;">
+          <form #form="ngForm">
+
+
+            <div *ngIf="registrationSteps==='customer'">
+              <div>
+                <h1>Customer Registration Form</h1>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="name">{{ 'NAME' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{user?.userData?.name}}
+                </div>
+                <input class="form-control" id="name" *ngIf="isEdit" type="text" [(ngModel)]="tempUserData.name" name="name" placeholder="" maxlength="50" required>
+              </div>
+
+
+              <div class="form-group">
+                <label class="form-label" for="zip">{{ 'ZIP_CODE' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{user?.userData?.zip}}
+                </div>
+                <input id="zip" class="form-control" *ngIf="isEdit" type="tel" [(ngModel)]="tempUserData.zip" name="zip" placeholder="" maxlength="5" pattern="[0-9]{5}" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="phone">{{ 'PHONE' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{user?.userData?.phone}}
+                </div>
+                <input id="phone" class="form-control" *ngIf="isEdit" type="tel" [(ngModel)]="tempUserData.phone"  name="phone" placeholder="" maxlength="10">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="phone">{{ 'RENTER_QUESTION' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{ (user?.userData?.vendor) ? "YES" : "NO" }}
+                </div>
+                <br *ngIf="isEdit">
+                <div class="btn-group" *ngIf="isEdit">
+                  <button type="button" class="btn-radio btn-left btn-lg" [ngClass]="{'active':tempUserData.vendor}" (click)="tempUserData.vendor=true">Yes</button>
+                  <button type="button" class="btn-radio btn-right btn-lg" [ngClass]="{'active':!tempUserData.vendor}" (click)="tempUserData.vendor=false">No</button>
+
+                </div>
+              </div>
+            </div>
+            <div *ngIf="registrationSteps==='vendor'">
+              <div>
+                <h1>Vendor Registration Form</h1>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="entityType">{{ 'ENTITY_TYPE' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{ user?.userData?.entityType }}
+                </div>
+                <br *ngIf="isEdit">
+                <div class="btn-group" *ngIf="isEdit">
+                  <button type="button" class="btn-radio btn-left btn-lg" [ngClass]="{'active':tempUserData.entityType === 'Company'}" (click)="tempUserData.entityType = 'Company'">Company</button>
+                  <button type="button" class="btn-radio btn-right btn-lg" [ngClass]="{'active':tempUserData.entityType === 'Individual'}" (click)="tempUserData.entityType = 'Individual'">Individual</button>
+
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="legalname">{{ 'LEGAL_NAME' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{user?.userData?.legalname}}
+                </div>
+                <input class="form-control" id="legalname" *ngIf="isEdit" type="text" [(ngModel)]="tempUserData.legalname" name="name" placeholder="" maxlength="50" required>
+              </div>
+
+
+              <div class="form-group">
+                <label class="form-label" for="address">{{ 'ADDRESS' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{user?.userData?.address}}
+                </div>
+                <input id="address" class="form-control" *ngIf="isEdit" type="text" [(ngModel)]="tempUserData.address" name="address" placeholder="" maxlength="100"  required>
+              </div>
+
+
+              <div class="form-group">
+                <label class="form-label" for="taxid">{{ 'TAX_ID' | translate }}</label>
+                <div *ngIf="!isEdit">
+                  {{user?.userData?.taxid}}
+                </div>
+                <input id="taxid" class="form-control" *ngIf="isEdit" type="tel" [(ngModel)]="tempUserData.taxid" name="address" placeholder="" maxlength="20"  required>
+              </div>
+            </div>
+            <div class="text-center" *ngIf="isEdit">
+              <ion-item>
+                <button type="button" class="btn btn-lg btn-primary btn-block"  (click)="continue()">Continue</button>
+              </ion-item>
+            </div>
+
+            <div class="text-center">
+              <ion-item *ngIf="!isEdit">
+                <button type="button" (click)="logout()" class="btn btn-block btn-danger btn-lg">{{ 'LOGOUT' | translate }}</button>
+              </ion-item>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+
+  </div>
 </ion-content>

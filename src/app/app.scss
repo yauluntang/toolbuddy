@@ -14,11 +14,63 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
+button:focus {outline:0;}
 .btn{
   ion-icon{
     padding: 0.3rem;
     margin-left: -1rem;
     margin-right: 0.4rem;
   }
+}
+label.form-label{
+  font-weight: bold;
+}
+.navbar {
+  -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+  -moz-box-shadow:    2px 2px 2px rgba(0,0,0,0.1);
+  box-shadow:         2px 2px 2px rgba(0,0,0,0.1);
+  z-index:999;
+}
+.container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.form-control{
+  font-size: 1.4rem;
+}
+
+.fixed-scroll{
+  width: 100%;
+  height: 100%;
+  overflow:scroll;
+  position: fixed;
+  padding:1em;
+}
+.btn-radio{
+  font-size:1.2em;
+  padding:0.5em;
+  padding-left:0.8em;
+  padding-right:0.8em;
+  color:#488aff;
+  background: #eee;
+  border: 1px solid rgba(0,0,0,0.1);
+  &.active {
+    box-shadow: inset 0 0 10px #000000;
+    color: white;
+    background: #488aff;
+  }
+  &.inactive{
+
+  }
+  &.btn-right{
+    border-radius: 0px 10px 10px 0px;
+  }
+  &.btn-left{
+    border-radius: 10px 0px 0px 10px;
+  }
+}
+
+.btn-lg{
+  font-size: 1.2em;
 }
