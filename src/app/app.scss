@@ -74,3 +74,11 @@ label.form-label{
 .btn-lg{
   font-size: 1.2em;
 }
+.fa.fa-star.checked {
+  color: orange;
+}
+
+.btn-primary.disabled, .btn-primary:disabled{
+  background-color: grey;
+  border-color: grey;
+}

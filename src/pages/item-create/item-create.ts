@@ -22,13 +22,28 @@ export class ItemCreatePage {
   item: any;
   itemImage: any;
   file: any;
-
+  qualityCheck: any;
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, public camera: Camera, public user:User, public items:Items) {
 
 
     this.item = {};
+    this.item.quality = 0;
 
+    this.qualityCheck = [];
+    let qualityText = ['Poor','Fair','Good','Excellent','New'];
+    for ( let i = 0; i < 5; i ++ ) {
+      this.qualityCheck.push({checked: false, index: i, text: qualityText[i]});
+    }
+
+  }
+
+  qualityCheckSelect( qualityCheck ){
+    for ( let i = 0; i < 5; i ++ ) {
+
+      this.qualityCheck[i].checked = i <= qualityCheck.index;
+    }
+    this.item.quality = qualityCheck.index;
   }
 
   ionViewDidLoad() {

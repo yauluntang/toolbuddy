@@ -105,10 +105,8 @@
 
 
       <div >
-        <div style="width: 100%; height: 2000px;">
+        <div style="width: 100%;">
           <form #form="ngForm">
-
-
             <div *ngIf="registrationSteps==='customer'">
               <div>
                 <h1>Customer Registration Form</h1>
@@ -120,7 +118,6 @@
                 </div>
                 <input class="form-control" id="name" *ngIf="isEdit" type="text" [(ngModel)]="tempUserData.name" name="name" placeholder="" maxlength="50" required>
               </div>
-
 
               <div class="form-group">
                 <label class="form-label" for="zip">{{ 'ZIP_CODE' | translate }}</label>
@@ -139,18 +136,18 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="phone">{{ 'RENTER_QUESTION' | translate }}</label>
+                <label class="form-label" for="phone">{{ 'VENDOR_QUESTION' | translate }}</label>
                 <div *ngIf="!isEdit">
-                  {{ (user?.userData?.vendor) ? "YES" : "NO" }}
+                  {{ (user?.userData?.vendor) ? ('VENDOR_QUESTION_Y' | translate) : ('VENDOR_QUESTION_N' | translate) }}
                 </div>
                 <br *ngIf="isEdit">
                 <div class="btn-group" *ngIf="isEdit">
-                  <button type="button" class="btn-radio btn-left btn-lg" [ngClass]="{'active':tempUserData.vendor}" (click)="tempUserData.vendor=true">Yes</button>
-                  <button type="button" class="btn-radio btn-right btn-lg" [ngClass]="{'active':!tempUserData.vendor}" (click)="tempUserData.vendor=false">No</button>
-
+                  <button type="button" class="btn-radio btn-left btn-lg" [ngClass]="{'active':tempUserData.vendor}" (click)="tempUserData.vendor=true">{{ 'VENDOR_QUESTION_Y' | translate }}</button>
+                  <button type="button" class="btn-radio btn-right btn-lg" [ngClass]="{'active':!tempUserData.vendor}" (click)="tempUserData.vendor=false">{{ 'VENDOR_QUESTION_N' | translate }}</button>
                 </div>
               </div>
             </div>
+
             <div *ngIf="registrationSteps==='vendor'">
               <div>
                 <h1>Vendor Registration Form</h1>
@@ -164,7 +161,6 @@
                 <div class="btn-group" *ngIf="isEdit">
                   <button type="button" class="btn-radio btn-left btn-lg" [ngClass]="{'active':tempUserData.entityType === 'Company'}" (click)="tempUserData.entityType = 'Company'">Company</button>
                   <button type="button" class="btn-radio btn-right btn-lg" [ngClass]="{'active':tempUserData.entityType === 'Individual'}" (click)="tempUserData.entityType = 'Individual'">Individual</button>
-
                 </div>
               </div>
 
@@ -194,6 +190,7 @@
                 <input id="taxid" class="form-control" *ngIf="isEdit" type="tel" [(ngModel)]="tempUserData.taxid" name="address" placeholder="" maxlength="20"  required>
               </div>
             </div>
+
             <div class="text-center" *ngIf="isEdit">
               <ion-item>
                 <button type="button" class="btn btn-lg btn-primary btn-block"  (click)="continue()">Continue</button>

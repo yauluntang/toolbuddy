@@ -43,7 +43,9 @@
   "WELCOME_TITLE": "Welcome",
   "ZIP_CODE": "Zip Code",
   "PHONE": "Phone",
-  "RENTER_QUESTION": "Do you want to be a renter?",
+  "VENDOR_QUESTION": "Do you want to be a vendor or renter?",
+  "VENDOR_QUESTION_Y": "Vendor",
+  "VENDOR_QUESTION_N": "Renter",
   "LOGIN_TITLE": "Sign in",
   "LOGIN_ERROR": "Unable to sign in. Please check your account information and try again.",
   "LOGIN_BUTTON": "Sign in",
@@ -64,11 +66,17 @@
   "ITEM_CREATE_TITLE": "New Item",
   "ITEM_CREATE_CHOOSE_IMAGE": "Add Image",
 
-  "ITEM_NAME_PLACEHOLDER": "Name",
-  "ITEM_ABOUT_PLACEHOLDER": "About",
-  "ITEM_DURATION": "Duration",
+  "ITEM_NAME_PLACEHOLDER": "Tool Name",
+  "ITEM_CATEGORY": "Tool Category",
+  "ITEM_BRAND": "Item Brand",
+  "ITEM_QUALITY": "Quality",
+  "ITEM_ABOUT_PLACEHOLDER": "Tool Description",
+  "ITEM_DURATION_FROM": "Duration From",
+  "ITEM_DURATION_TO": "Duration To",
   "ITEM_DEPOSIT": "Deposit",
-  "ITEM_RATE": "Rate (per day)",
+  "ITEM_RATE": "Price Per Day",
+
+
 
   "DONE_BUTTON": "Done",
   "CANCEL_BUTTON": "Cancel",

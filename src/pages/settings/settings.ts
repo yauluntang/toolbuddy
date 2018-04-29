@@ -73,6 +73,7 @@ export class SettingsPage {
   }
 
   continue(){
+    this.tempUserData.registered = true;
     if ( this.registrationSteps === 'customer' )
       if ( this.tempUserData.vendor ){
         this.registrationSteps = 'vendor';
