@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import {ApplicationRef, Component, ViewChild} from '@angular/core';
 import { Camera } from '@ionic-native/camera';
-import { IonicPage, NavController, ViewController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {User} from "../../providers/user/user";
 import {Items} from "../../providers/items/items";
 declare var $:any;
@@ -22,32 +22,48 @@ export class ItemCreatePage {
   item: any;
   itemImage: any;
   file: any;
-  qualityCheck: any;
+  itemImages: any;
+  updateKey: any;
+  itemt: any;
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public camera: Camera, public user:User, public items:Items) {
+  constructor(private app: ApplicationRef, public navCtrl: NavController, navParams: NavParams, public viewCtrl: ViewController, public camera: Camera, public user:User, public items:Items) {
 
 
-    this.item = {};
-    this.item.quality = 0;
+    this.itemt = [1, 2, 3, 4, 5]
+    this.item = navParams.get('item');
 
-    this.qualityCheck = [];
-    let qualityText = ['Poor','Fair','Good','Excellent','New'];
-    for ( let i = 0; i < 5; i ++ ) {
-      this.qualityCheck.push({checked: false, index: i, text: qualityText[i]});
+    if (!this.item) {
+      this.item = {};
+      this.item.quality = 0;
+      this.updateKey = null;
     }
+    else {
+      this.updateKey = this.item.key;
+    }
+    this.itemImages = [];
+    if (this.item.imageUrl && this.item.imageUrl.length) {
+      for (let i = 0; i < this.item.imageUrl.length; i++) {
+        this.itemImages.push({file: null, image: this.item.imageUrl[i], url: this.item.imageUrl[i]})
+      }
+    }
+    if (this.item.imageUrl && !this.item.imageUrl.length) {
 
+      this.itemImages.push({file: null, image: this.item.imageUrl, url: this.item.imageUrl})
+
+    }
   }
 
   qualityCheckSelect( qualityCheck ){
-    for ( let i = 0; i < 5; i ++ ) {
 
-      this.qualityCheck[i].checked = i <= qualityCheck.index;
-    }
     this.item.quality = qualityCheck.index;
   }
 
   ionViewDidLoad() {
 
+  }
+  reset(e) {
+    e.wrap('<form>').closest('form').get(0).reset();
+    e.unwrap();
   }
 
   getPicture() {
@@ -59,6 +75,8 @@ export class ItemCreatePage {
       }).then((data) => {
         //this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' + data });
         this.itemImage = data;
+        this.itemImages.push( this.itemImage );
+        this.app.tick();
       }, (err) => {
         alert('Unable to take photo');
       })
@@ -66,15 +84,17 @@ export class ItemCreatePage {
       this.fileInput.nativeElement.click();
     }
   }
-
+  deleteImage(index) {
+    this.itemImages.splice(index,1);
+  }
   processWebImage(event) {
     let reader = new FileReader();
     reader.onload = (readerEvent) => {
-
-      this.itemImage = (readerEvent.target as any).result;
-      $('#fileImage').attr('src', this.itemImage);
-
-    };
+      let itemImage = (readerEvent.target as any).result;
+      $("#fileInput").val("");
+      $("#imageForm")[0].reset();
+      this.itemImages.push( { file:this.file, image:itemImage, url:null} );
+    }
     if ( event.target.files[0] ) {
       this.file = event.target.files[0];
       reader.readAsDataURL(event.target.files[0]);
@@ -97,13 +117,37 @@ export class ItemCreatePage {
    */
   done() {
 
-    this.items.add( this.item, this.file ).then(res=>{
-      console.log(res);
+    if ( this.updateKey ){
+      this.items.update( this.item, this.updateKey ).then((res:any)=>{
+        console.log(res);
 
-      this.viewCtrl.dismiss();
-    }).catch(e=>{
+        this.items.uploadImages( this.itemImages, this.updateKey ).then( res=>{
+          this.viewCtrl.dismiss();
+        }).catch(e=>{
+          console.error(e)
+        })
 
-    });
+
+      }).catch(e=>{
+        console.error(e)
+      });
+    }
+    else {
+      this.items.add(this.item).then((res: any) => {
+        console.log(res);
+        this.updateKey = res.res.key;
+
+        this.items.uploadImages(this.itemImages, this.updateKey).then(res => {
+          this.viewCtrl.dismiss();
+        }).catch(e => {
+          console.error(e)
+        })
+
+
+      }).catch(e => {
+        console.error(e)
+      });
+    }
 
   }
 }

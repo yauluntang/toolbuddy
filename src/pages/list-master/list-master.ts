@@ -27,9 +27,13 @@ export class ListMasterPage {
    * modal and then adds the new item to our data source if the user created one.
    */
   addItem() {
+    this.navCtrl.push('ItemCreatePage', {
+
+    });
+    /*
     let addModal = this.modalCtrl.create('ItemCreatePage');
 
-    addModal.present();
+    addModal.present();*/
   }
 
   /**
@@ -43,7 +47,7 @@ export class ListMasterPage {
    * Navigate to the detail page for this item.
    */
   openItem(item) {
-    this.navCtrl.push('ItemDetailPage', {
+    this.navCtrl.push('ItemCreatePage', {
       item: item
     });
   }

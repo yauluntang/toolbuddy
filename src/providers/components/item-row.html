@@ -1,17 +1,18 @@
 <ion-item-sliding>
 
   <button ion-item (click)="openItem(item)">
-    <ion-avatar item-start>
-      <img [src]="item.imageUrl" />
+    <ion-avatar item-start *ngIf="item.imageUrl && item.imageUrl.length >= 1">
+      <img [src]="item.imageUrl[0]" />
     </ion-avatar>
     <h2>{{item.name}}</h2>
     <p>{{item.about}}</p>
+    <p>{{item.rate|priceFormat}}/day</p>
     <p *ngIf="!isOwner" class="owner">Owner: {{item.owner}}</p>
     <p *ngIf="!isOwner" class="zip">Zip: {{item.zip}}</p>
 
   </button>
 
-  <ion-item-options>
+  <ion-item-options *ngIf="isOwner">
     <button ion-button color="danger" (click)="deleteItem(item)">
       {{ 'DELETE_BUTTON' | translate }}
     </button>

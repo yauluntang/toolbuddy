@@ -10,8 +10,8 @@
 <ion-content>
   <!--
   <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>-->
-  <ion-list>
-    <item-row *ngFor="let item of items.itemList" [item]="item" [isOwner]="false"></item-row>
+  <div class="row">
+    <item-card class="col-6 col-sm-4 col-md-4 card"  *ngFor="let item of items.itemList" [item]="item" [isOwner]="false"></item-card>
     <!--
     <ion-item-sliding *ngFor="let item of items.itemList">
 
@@ -28,5 +28,5 @@
         <ion-note item-end *ngIf="item.rate">Rate:{{item.rate}}</ion-note>
       </button>
     </ion-item-sliding>-->
-  </ion-list>
+  </div>
 </ion-content>

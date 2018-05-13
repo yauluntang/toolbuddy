@@ -82,3 +82,18 @@ label.form-label{
   background-color: grey;
   border-color: grey;
 }
+
+item-card{
+  ion-avatar{
+    max-width:50px;
+    max-height:50px;
+  }
+  h2{
+    margin:0;
+    font-size: 1.0em;
+  }
+  p {
+    margin:0;
+    font-size:0.7em;
+  }
+}

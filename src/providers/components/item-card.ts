@@ -5,10 +5,10 @@ import {
 import {NavController} from 'ionic-angular';
 
 @Component({
-  selector: 'item-row',
-  templateUrl: 'item-row.html'
+  selector: 'item-card',
+  templateUrl: 'item-card.html'
 })
-export class ItemRowComponent {
+export class ItemCardComponent {
   @Input('item') item;
   @Input('isOwner') isOwner;
   constructor(public navCtrl: NavController) {}

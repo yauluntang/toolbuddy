@@ -53,7 +53,7 @@
   "SIGNUP_ERROR": "Unable to create account. Please check your account information and try again.",
   "SIGNUP_BUTTON": "Sign up",
   "LOGOUT":"Log Out",
-  "TAX_ID": "Tax ID",
+  "TAX_ID": "Tax ID / EIN",
   "ADDRESS": "Address",
   "LEGAL_NAME":"Legal Name",
   "ENTITY_TYPE": "Entity Type",
@@ -64,6 +64,7 @@
   "LIST_MASTER_TITLE": "Your Items for Rental",
 
   "ITEM_CREATE_TITLE": "New Item",
+  "ITEM_UPDATE_TITLE": "Update Item",
   "ITEM_CREATE_CHOOSE_IMAGE": "Add Image",
 
   "ITEM_NAME_PLACEHOLDER": "Tool Name",

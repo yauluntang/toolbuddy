@@ -1,19 +1,32 @@
 page-item-create {
+  #imageForm{
+    padding:30px;
+  }
+  .profile-image {
+    width: 156px;
+    height: 156px;
+    display: inline-table;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 5px;
+    border: 1px solid grey;
+  }
+  .delete-button {
+    position: absolute;
+    top: -25px;
+    right: -15px;
+    background-color: red;
+    z-index: 99999;
+    &:focus,&:hover {
+      background-color: red !important;
+    }
+  }
   .profile-image-wrapper {
     text-align: center;
     margin: 20px 0;
 
-    .profile-image {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
 
-      display: inline-block;
-
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-    }
 
     .profile-image-placeholder {
       display: inline-block;

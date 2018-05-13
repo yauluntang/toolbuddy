@@ -1,8 +1,8 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'ITEM_CREATE_TITLE' | translate }}</ion-title>
-
+    <ion-title *ngIf="!updateKey">{{ 'ITEM_CREATE_TITLE' | translate }}</ion-title>
+    <ion-title *ngIf="updateKey">{{ 'ITEM_UPDATE_TITLE' | translate }}</ion-title>
 
 
 
@@ -26,22 +26,28 @@
 
 
 <ion-content>
-  <form #form="ngForm" style="padding:15px">
-    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
-    <div class="profile-image-wrapper" (click)="getPicture()">
-      <div class="profile-image-placeholder" *ngIf="!itemImage">
-        <ion-icon name="add"></ion-icon>
 
+  <form id="imageForm">
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
+
+    <div class="row">
+      <div class="col-6 col-sm-4 col-md-3 profile-image" *ngFor="let item of itemImages; index as i">
+        <img [src]="item.image">
+        <button class="delete-button" ion-button icon-only (click)="deleteImage(i)">
+          <ion-icon name="backspace"></ion-icon>
+        </button>
+      </div>
+    </div>
+    <div class="profile-image-wrapper" (click)="getPicture()">
+      <div class="profile-image-placeholder">
+        <ion-icon name="add"></ion-icon>
         <div>
           {{ 'ITEM_CREATE_CHOOSE_IMAGE' | translate }}
         </div>
       </div>
-      <div class="profile-image" >
-        <img id="fileImage">
-      </div>
     </div>
-
-
+  </form>
+  <form #form="ngForm" style="padding:15px">
     <div class="form-group">
       <label class="form-label" for="name">{{ 'ITEM_NAME_PLACEHOLDER' | translate }}</label>
 
@@ -59,11 +65,12 @@
       <label class="form-label" for="category">{{ 'ITEM_CATEGORY' | translate }}</label>
 
       <select class="form-control" id="category" [(ngModel)]="item.category" name="category" #name="ngModel" required >
+        <option value="Lawn & Garden">Lawn and Garden</option>
+        <option value="Construction">Construction</option>
+        <option value="Household">Household</option>
+        <option value="Automotives">Automotives</option>
         <option value="Electronics">Electronics</option>
-        <option value="Electronics">Construction Equipment</option>
-        <option value="Electronics">Automotives</option>
-        <option value="Electronics">Cleaning Equipment</option>
-        <option value="Electronics">Others</option>
+        <option value="Other">Other</option>
       </select>
 
     </div>
@@ -71,10 +78,11 @@
     <div class="form-group">
       <label class="form-label">{{ 'ITEM_QUALITY' | translate }}</label>
 
-      <span *ngFor="let check of qualityCheck">
-      <span class="fa fa-star" [ngClass]="{'checked':check.checked}" (click)="qualityCheckSelect(check)"></span></span>
+      <span *ngFor="let check of items.qualityCheck; index as i">
+        <span class="fa fa-star" [ngClass]="{'checked':this.item.quality >= i}" (click)="qualityCheckSelect(check)"></span>
+      </span>
 
-      <span>{{qualityCheck[this.item.quality].text}}</span>
+      <span>{{items.qualityCheck[this.item.quality].text}}</span>
 
       <input style="display:none" class="form-control" id="quality" [(ngModel)]="item.quality" name="quality" placeholder="quality" #name="ngModel" required maxlength="20">
     </div>
@@ -100,13 +108,13 @@
     <div class="form-group">
       <label class="form-label" for="security_deposit">{{ 'ITEM_DEPOSIT' | translate }}</label>
 
-      <input id="security_deposit" class="form-control" type="tel" [(ngModel)]="item.deposit"  name="security_deposit" placeholder="" maxlength="10">
+      <input [options]="{ align: 'left' }" currencyMask id="security_deposit" class="form-control" type="tel" [(ngModel)]="item.deposit"  name="security_deposit" placeholder="" maxlength="10">
     </div>
 
     <div class="form-group">
       <label class="form-label" for="rate">{{ 'ITEM_RATE' | translate }}</label>
 
-      <input id="rate" class="form-control" type="tel" [(ngModel)]="item.rate"  name="rate" placeholder="" maxlength="10">
+      <input [options]="{ align: 'left' }" currencyMask id="rate" class="form-control" type="tel" [(ngModel)]="item.rate"  name="rate" placeholder="" maxlength="9">
     </div>
 
     <!--
@@ -138,7 +146,7 @@
 
     </ion-list>-->
     <div class="text-center">
-      <button type="button" class="btn btn-lg btn-primary btn-block" [disabled]="!(form.valid && itemImage)"  (click)="done()">Continue</button>
+      <button type="button" class="btn btn-lg btn-primary btn-block" [disabled]="!(form.valid && itemImages.length >= 1)"  (click)="done()">Continue</button>
     </div>
   </form>
 </ion-content>

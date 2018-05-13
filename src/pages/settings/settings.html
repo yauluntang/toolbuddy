@@ -182,7 +182,7 @@
               </div>
 
 
-              <div class="form-group">
+              <div class="form-group" *ngIf="tempUserData.entityType === 'Company'">
                 <label class="form-label" for="taxid">{{ 'TAX_ID' | translate }}</label>
                 <div *ngIf="!isEdit">
                   {{user?.userData?.taxid}}

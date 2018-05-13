@@ -8,15 +8,89 @@
 
 
 <ion-content>
-  <div class="item-profile" text-center #profilePic [style.background-image]="'url(' + item.imageUrl + ')'">
+  <div class="row">
+    <div class="col-6 col-sm-4 col-md-3 profile-image" *ngFor="let item of item.imageUrl; index as i">
+      <img [src]="item">
+    </div>
   </div>
 
   <div class="item-detail" padding>
     <h2>{{item.name}}</h2>
     <p>{{item.about}}</p>
 
+    <!--
     <ion-note *ngIf="item.duration">Duration:{{item.duration}}</ion-note>
     <ion-note *ngIf="item.deposit">Deposit:{{item.deposit}}</ion-note>
     <ion-note  *ngIf="item.rate">Rate:{{item.rate}}</ion-note>
+-->
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_BRAND' | translate }}</label>
+
+      <p>{{item.brand}}</p>
+    </div>
+
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_CATEGORY' | translate }}</label>
+      <p>{{item.category}}</p>
+
+    </div>
+
+
+    <div class="form-group">
+      <label class="form-label">{{ 'ITEM_QUALITY' | translate }}</label>
+
+      <span *ngFor="let check of items.qualityCheck; index as i">
+        <span class="fa fa-star" [ngClass]="{'checked':item.quality >= i}"></span>
+      </span>
+
+      <span>{{items.qualityCheck[item.quality].text}}</span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_ABOUT_PLACEHOLDER' | translate }}</label>
+
+      <p>{{ item.about }}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_DURATION_FROM' | translate }}</label>
+
+      <p> {{ item.duration_from }} </p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_DURATION_TO' | translate }}</label>
+
+      <p> {{item.duration_to}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_DEPOSIT' | translate }}</label>
+
+      <p> {{ item.deposit | priceFormat }} </p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_RATE' | translate }}</label>
+
+      <p> {{ item.rate | priceFormat }} </p>
+    </div>
+
+    <!--
+    <div class="form-group">
+      <label class="form-label" for="security_deposit">{{ 'ITEM_DEPOSIT' | translate }}</label>
+
+      <input [options]="{ align: 'left' }" currencyMask id="security_deposit" class="form-control" type="tel" [(ngModel)]="item.deposit"  name="security_deposit" placeholder="" maxlength="10">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="rate">{{ 'ITEM_RATE' | translate }}</label>
+
+      <input [options]="{ align: 'left' }" currencyMask id="rate" class="form-control" type="tel" [(ngModel)]="item.rate"  name="rate" placeholder="" maxlength="9">
+    </div>
+-->
+
   </div>
 </ion-content>

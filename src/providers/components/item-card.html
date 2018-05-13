@@ -1,0 +1,11 @@
+<div (click)="openItem(item)">
+
+    <ion-avatar item-start *ngIf="item.imageUrl && item.imageUrl.length >= 1">
+      <img [src]="item.imageUrl[0]" />
+    </ion-avatar>
+    <h2>{{item.name}}</h2>
+    <p>{{item.about}}</p>
+
+    <p>Zip: {{item.zip}}</p>
+    <p>{{item.rate|priceFormat}}/day Deposit:{{item.deposit|priceFormat}}</p>
+</div>
