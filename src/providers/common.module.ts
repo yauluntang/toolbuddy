@@ -11,6 +11,7 @@ import {CurrencyMaskModule} from "ng2-currency-mask";
 import { TextMaskModule } from 'angular2-text-mask';
 import {PricePipe} from "./pipes/price";
 import {ItemCardComponent} from "./components/item-card";
+import {ItemSearch} from "./pipes/itemsearch";
 
 @NgModule({
   imports:[
@@ -26,6 +27,7 @@ import {ItemCardComponent} from "./components/item-card";
   declarations: [
     PhoneValidator,
     PricePipe,
+    ItemSearch,
     ItemRowComponent,
     ItemCardComponent
   ],
@@ -37,7 +39,9 @@ import {ItemCardComponent} from "./components/item-card";
     ItemCardComponent,
     TextMaskModule,
     CurrencyMaskModule,
-    PricePipe
+    PricePipe,
+    ItemSearch
+
   ]
 })
 export class CommonModule {}

@@ -1,11 +1,11 @@
-<div (click)="openItem(item)">
+<div class="list-item-card" (click)="openItem(item)">
 
-    <ion-avatar item-start *ngIf="item.imageUrl && item.imageUrl.length >= 1">
+    <ion-avatar class="card-avatar" item-start *ngIf="item.imageUrl && item.imageUrl.length >= 1">
       <img [src]="item.imageUrl[0]" />
     </ion-avatar>
     <h2>{{item.name}}</h2>
     <p>{{item.about}}</p>
 
     <p>Zip: {{item.zip}}</p>
-    <p>{{item.rate|priceFormat}}/day Deposit:{{item.deposit|priceFormat}}</p>
+  <p><span class="rate">{{item.rate|priceFormat}}/d</span> <span class="deposit">Deposit: {{item.deposit|priceFormat}}</span></p>
 </div>

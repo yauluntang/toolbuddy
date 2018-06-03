@@ -11,22 +11,10 @@ import { Items } from '../../providers/providers';
 export class SearchPage {
 
   currentItems: any = [];
+  searchterm: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items) { }
-
-  /**
-   * Perform a service for the proper items.
-   */
-  getItems(ev) {
-    /*
-    let val = ev.target.value;
-    if (!val || !val.trim()) {
-      this.currentItems = [];
-      return;
-    }
-    this.currentItems = this.items.query({
-      name: val
-    });*/
+  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items) {
+    this.searchterm = null;
   }
 
   openItem(item) {

@@ -8,25 +8,31 @@
 
 
 <ion-content>
-  <!--
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>-->
-  <div class="row">
-    <item-card class="col-6 col-sm-4 col-md-4 card"  *ngFor="let item of items.itemList" [item]="item" [isOwner]="false"></item-card>
-    <!--
-    <ion-item-sliding *ngFor="let item of items.itemList">
+  <div class="search-form">
+    <input class="form-control" [(ngModel)]="searchterm">
+  </div>
+  <div style="padding:15px">
 
-      <button ion-item (click)="openItem(item)">
-        <ion-avatar item-start>
-          <img [src]="item.imageUrl" />
-        </ion-avatar>
-        <h2>{{item.name}}</h2>
-        <p>{{item.about}}</p>
-        <p class="owner">Owner: {{item.owner}}</p>
-        <p class="zip">Zip: {{item.zip}}</p>
-        <ion-note item-end *ngIf="item.duration">Duration:{{item.duration}}</ion-note>
-        <ion-note item-end *ngIf="item.deposit">Deposit:{{item.deposit}}</ion-note>
-        <ion-note item-end *ngIf="item.rate">Rate:{{item.rate}}</ion-note>
-      </button>
-    </ion-item-sliding>-->
+    <div class="row">
+
+      <item-card class="col-6 col-sm-4 col-md-4 card"  *ngFor="let item of items.itemList|itemSearch:searchterm" [item]="item" [isOwner]="false"></item-card>
+
+      <!--
+      <ion-item-sliding *ngFor="let item of items.itemList">
+
+        <button ion-item (click)="openItem(item)">
+          <ion-avatar item-start>
+            <img [src]="item.imageUrl" />
+          </ion-avatar>
+          <h2>{{item.name}}</h2>
+          <p>{{item.about}}</p>
+          <p class="owner">Owner: {{item.owner}}</p>
+          <p class="zip">Zip: {{item.zip}}</p>
+          <ion-note item-end *ngIf="item.duration">Duration:{{item.duration}}</ion-note>
+          <ion-note item-end *ngIf="item.deposit">Deposit:{{item.deposit}}</ion-note>
+          <ion-note item-end *ngIf="item.rate">Rate:{{item.rate}}</ion-note>
+        </button>
+      </ion-item-sliding>-->
+    </div>
   </div>
 </ion-content>
