@@ -8,7 +8,7 @@
 
 
 <ion-content>
-  <div class="row">
+  <div class="row p15">
     <div class="col-6 col-sm-4 col-md-3 profile-image" *ngFor="let item of item.imageUrl; index as i">
       <img [src]="item">
     </div>
@@ -91,6 +91,9 @@
       <input [options]="{ align: 'left' }" currencyMask id="rate" class="form-control" type="tel" [(ngModel)]="item.rate"  name="rate" placeholder="" maxlength="9">
     </div>
 -->
+    <div class="text-center">
+      <button type="button" class="btn btn-lg btn-primary btn-block" (click)="done()">Pay to Rent</button>
+    </div>
 
   </div>
 </ion-content>

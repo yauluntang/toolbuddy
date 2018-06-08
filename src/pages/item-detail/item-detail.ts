@@ -14,5 +14,10 @@ export class ItemDetailPage {
   constructor(public navCtrl: NavController, navParams: NavParams, public items: Items) {
     this.item = navParams.get('item');
   }
+  done(){
+    this.navCtrl.push('PaymentPage', {
+      item: this.item
+    });
+  }
 
 }
