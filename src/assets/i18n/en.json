@@ -86,5 +86,16 @@
   "CARDS_TITLE": "Social",
 
   "SEARCH_TITLE": "Search",
-  "SEARCH_PLACEHOLDER": "Search the items list, e.g. \"Donald Duck\""
+  "SEARCH_PLACEHOLDER": "Search the items list, e.g. \"Donald Duck\"",
+  "PAY_TO_RENT": "Pay to rent",
+
+
+  "DURATION":"Duration",
+  "TOTAL":"Total",
+  "CARD_NUMBER":"Card Number",
+  "CVV":"CVV",
+  "EXPIRATION":"Expiration"
+
+
+
 }

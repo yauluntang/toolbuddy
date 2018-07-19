@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'LIST_MASTER_TITLE' | translate }}</ion-title>
+    <ion-title>{{ 'PAY_TO_RENT' | translate }}</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()">
@@ -13,6 +13,82 @@
 </ion-header>
 
 <ion-content>
+  <div class="item-detail" padding>
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_DEPOSIT' | translate }}</label>
 
+      <p> {{ item.deposit | priceFormat }} </p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'ITEM_RATE' | translate }}</label>
+
+      <p> {{ item.rate | priceFormat }} </p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'DURATION' | translate }}</label>
+      <ion-item>
+        <ion-range min="1" max="14" [(ngModel)]="rental.duation" color="secondary">
+          <ion-label range-left>1</ion-label>
+          <ion-label range-right>14</ion-label>
+        </ion-range>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" >{{ 'TOTAL' | translate }}</label>
+
+      <p style="font-size:2em"> {{ item.rate * rental.duation + item.deposit | priceFormat }} </p>
+    </div>
+
+
+      <div class="payment-form">
+        <form>
+          <div class="form-group owner">
+            <label class="form-label" for="owner">{{ 'NAME' | translate }}</label>
+            <input type="text" class="form-control" id="owner">
+          </div>
+
+
+          <div class="row">
+
+            <div class="form-group col-8" id="card-number-field">
+              <label class="form-label" for="cardNumber">{{ 'CARD_NUMBER' | translate }}</label>
+
+              <input type="text" class="form-control" id="cardNumber">
+            </div>
+            <div class="form-group col-4 CVV">
+              <label class="form-label" for="cvv">{{ 'CVV' | translate }}</label>
+              <input type="text" class="form-control" id="cvv">
+            </div>
+          </div>
+
+            <div class="form-group" id="expiration-date">
+              <label class="form-label">{{ 'EXPIRATION' | translate }}</label>
+              <div class="row">
+                <div class="col-2">
+                  <input type="text" class="form-control" maxlength="2" id="expiration-month" style="display: inline-block" placeholder="XX">
+                </div>
+                <span style="display: inline-block; font-size: 1.5em">/</span>
+                <div class="col-3">
+                  <input type="text" class="form-control" maxlength="4" id="expiration-year" placeholder="XXXX">
+                </div>
+              </div>
+            </div>
+          <div class="form-group" id="credit_cards">
+            <img src="assets/img/visa.jpg" id="visa">
+            <img src="assets/img/mastercard.jpg" id="mastercard">
+            <img src="assets/img/amex.jpg" id="amex">
+          </div>
+          <div class="form-group" id="pay-now">
+            <div class="text-center">
+              <button type="button" class="btn btn-lg btn-primary btn-block" (click)="confirmButton()">{{'CONFIRM'|translate}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+  </div>
 
 </ion-content>

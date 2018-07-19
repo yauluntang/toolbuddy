@@ -1,8 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Nav, NavController, NavParams } from 'ionic-angular';
 import { Items } from '../../providers/providers';
+import { AlertController } from 'ionic-angular';
 
-import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
+
+declare var $:any;
 
 
 @IonicPage()
@@ -12,52 +14,106 @@ import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal
 })
 export class PaymentPage {
   item: any;
+  rental: any;
 
-  constructor(private payPal: PayPal, public navCtrl: NavController, navParams: NavParams, public items: Items) {
+  constructor( public navCtrl: NavController, navParams: NavParams, public items: Items, private alertCtrl: AlertController) {
     this.item = navParams.get('item');
+    this.rental = {};
+    this.rental.duation = 1;
   }
 
   ionViewDidEnter() {
-    this.payPal.init({
-      PayPalEnvironmentProduction: 'YOUR_PRODUCTION_CLIENT_ID',
-      PayPalEnvironmentSandbox: 'Aa6uDQ9ilijJeKUuGnYv0VUiyqsvK2i00FxDOb-9ntcCccB0CPU83xy_Izh04PjGxofD6seEmwujzLFV'
-    }).then(() => {
-      // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
-      this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
-        // Only needed if you get an "Internal Service Error" after PayPal login!
-        //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-      })).then(() => {
-        let payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
-        this.payPal.renderSinglePaymentUI(payment).then(() => {
-          // Successfully paid
 
-          // Example sandbox response
-          //
-          // {
-          //   "client": {
-          //     "environment": "sandbox",
-          //     "product_name": "PayPal iOS SDK",
-          //     "paypal_sdk_version": "2.16.0",
-          //     "platform": "iOS"
-          //   },
-          //   "response_type": "payment",
-          //   "response": {
-          //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-          //     "state": "approved",
-          //     "create_time": "2016-10-03T13:33:33Z",
-          //     "intent": "sale"
-          //   }
-          // }
-        }, () => {
-          // Error or render dialog closed without being successful
-        });
-      }, () => {
-        // Error in configuration
+    var cardNumber = $('#cardNumber');
+    var cardNumberField = $('#card-number-field');
+    var CVV = $("#cvv");
+    var mastercard = $("#mastercard");
+    var confirmButton = $('#confirm-purchase');
+    var visa = $("#visa");
+    var amex = $("#amex");
+
+    // Use the payform library to format and validate
+    // the payment fields.
+
+    cardNumber.payform('formatCardNumber');
+    CVV.payform('formatCardCVC');
+
+
+    cardNumber.keyup(function() {
+
+      amex.removeClass('transparent');
+      visa.removeClass('transparent');
+      mastercard.removeClass('transparent');
+
+      if ($.payform.validateCardNumber(cardNumber.val()) == false) {
+        cardNumberField.addClass('has-error');
+      } else {
+        cardNumberField.removeClass('has-error');
+        cardNumberField.addClass('has-success');
+      }
+
+      if ($.payform.parseCardType(cardNumber.val()) == 'visa') {
+        mastercard.addClass('transparent');
+        amex.addClass('transparent');
+      } else if ($.payform.parseCardType(cardNumber.val()) == 'amex') {
+        mastercard.addClass('transparent');
+        visa.addClass('transparent');
+      } else if ($.payform.parseCardType(cardNumber.val()) == 'mastercard') {
+        amex.addClass('transparent');
+        visa.addClass('transparent');
+      }
+    });
+
+
+  }
+
+  confirmButton() {
+    var owner = $('#owner');
+    var cardNumber = $('#cardNumber');
+    var CVV = $("#cvv");
+
+    var isCardValid = $.payform.validateCardNumber(cardNumber.val());
+    var isCvvValid = $.payform.validateCardCVC(CVV.val());
+
+
+    if (owner.val().length < 5) {
+      let alert = this.alertCtrl.create({
+        title: 'Error',
+        subTitle: 'Invalid Name',
+        buttons: ['Dismiss']
       });
-    }, () => {
-      // Error in initialization, maybe PayPal isn't supported or something else
+      alert.present();
+
+
+    } else if (!isCardValid) {
+
+      let alert = this.alertCtrl.create({
+        title: 'Error',
+        subTitle: 'Invalid Card Number',
+        buttons: ['Dismiss']
+      });
+      alert.present();
+
+    } else if (!isCvvValid) {
+
+      let alert = this.alertCtrl.create({
+        title: 'Error',
+        subTitle: 'Invalid CVV',
+        buttons: ['Dismiss']
+      });
+      alert.present();
+    } else {
+      // Everything is correct. Add your form submission code here.
+      this.proceed();
+    }
+  }
+
+  proceed(){
+    this.navCtrl.push('ConfirmPage', {
+      item: this.item
     });
   }
+
 
 
 }
