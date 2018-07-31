@@ -2,8 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Nav, NavController, NavParams } from 'ionic-angular';
 import { Items } from '../../providers/providers';
 import { AlertController } from 'ionic-angular';
-
-
+declare var Stripe:any;
 declare var $:any;
 
 
@@ -15,15 +14,20 @@ declare var $:any;
 export class PaymentPage {
   item: any;
   rental: any;
+  stripe: any;
+  elements: any;
 
   constructor( public navCtrl: NavController, navParams: NavParams, public items: Items, private alertCtrl: AlertController) {
     this.item = navParams.get('item');
     this.rental = {};
     this.rental.duation = 1;
+    this.stripe = Stripe('pk_test_tlAh9kELCJ5jQsRX1BXkkOrm');
+    this.elements = this.stripe.elements();
   }
 
   ionViewDidEnter() {
 
+    /*
     var cardNumber = $('#cardNumber');
     var cardNumberField = $('#card-number-field');
     var CVV = $("#cvv");
@@ -61,6 +65,29 @@ export class PaymentPage {
       } else if ($.payform.parseCardType(cardNumber.val()) == 'mastercard') {
         amex.addClass('transparent');
         visa.addClass('transparent');
+      }
+    });*/
+
+    // Custom styling can be passed to options when creating an Element.
+    var style = {
+      base: {
+        // Add your base input styles here. For example:
+        fontSize: '16px',
+        color: "#32325d",
+      }
+    };
+
+// Create an instance of the card Element.
+    var card = this.elements.create('card', {style: style});
+
+// Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+    card.addEventListener('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
       }
     });
 
