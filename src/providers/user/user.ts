@@ -53,7 +53,19 @@ export class User {
       });
     });
   }
+  updateCart( cart ){
+    return new Promise( (resolve, reject)=>{
+      if ( this.user ) {
+        this.userNode.update( {cart: cart} ).then( (res)=>{
+          resolve(res);
+        })
+      }
+      else {
+        reject();
+      }
+    });
 
+  }
   signupEmail( account ) {
     this.userData = {};
 

@@ -12,9 +12,11 @@ export class SearchPage {
 
   currentItems: any = [];
   searchterm: any;
+  selectedCategory: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items) {
     this.searchterm = null;
+    this.selectedCategory = null;
   }
 
   openItem(item) {

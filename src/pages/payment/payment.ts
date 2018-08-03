@@ -25,7 +25,7 @@ export class PaymentPage {
     this.elements = this.stripe.elements();
   }
 
-  ionViewDidEnter() {
+  ionViewDidLoad() {
 
     /*
     var cardNumber = $('#cardNumber');
@@ -95,6 +95,8 @@ export class PaymentPage {
   }
 
   confirmButton() {
+
+    /*
     var owner = $('#owner');
     var cardNumber = $('#cardNumber');
     var CVV = $("#cvv");
@@ -132,10 +134,22 @@ export class PaymentPage {
     } else {
       // Everything is correct. Add your form submission code here.
       this.proceed();
-    }
+    }*/
+    this.stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        // Inform the user if there was an error.
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        // Send the token to your server.
+        this.proceed(result.token);
+      }
+    });
+
   }
 
-  proceed(){
+  proceed(token){
+    
     this.navCtrl.push('ConfirmPage', {
       item: this.item
     });
