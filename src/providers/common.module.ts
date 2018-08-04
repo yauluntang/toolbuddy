@@ -12,7 +12,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import {PricePipe} from "./pipes/price";
 import {ItemCardComponent} from "./components/item-card";
 import {ItemSearch} from "./pipes/itemsearch";
-
+import {CategoryPipe} from "./pipes/categoryPipe";
 @NgModule({
   imports:[
     HttpClientModule,
@@ -29,7 +29,8 @@ import {ItemSearch} from "./pipes/itemsearch";
     PricePipe,
     ItemSearch,
     ItemRowComponent,
-    ItemCardComponent
+    ItemCardComponent,
+    CategoryPipe
   ],
   exports: [
     BrMasker4Module,
@@ -40,6 +41,7 @@ import {ItemSearch} from "./pipes/itemsearch";
     TextMaskModule,
     CurrencyMaskModule,
     PricePipe,
+    CategoryPipe,
     ItemSearch
 
   ]

@@ -16,6 +16,7 @@ export class PaymentPage {
   rental: any;
   stripe: any;
   elements: any;
+  card: any;
 
   constructor( public navCtrl: NavController, navParams: NavParams, public items: Items, private alertCtrl: AlertController) {
     this.item = navParams.get('item');
@@ -23,6 +24,7 @@ export class PaymentPage {
     this.rental.duation = 1;
     this.stripe = Stripe('pk_test_tlAh9kELCJ5jQsRX1BXkkOrm');
     this.elements = this.stripe.elements();
+    this.card = null;
   }
 
   ionViewDidLoad() {
@@ -78,11 +80,11 @@ export class PaymentPage {
     };
 
 // Create an instance of the card Element.
-    var card = this.elements.create('card', {style: style});
+    this.card = this.elements.create('card', {style: style});
 
 // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
-    card.addEventListener('change', function(event) {
+    this.card.mount('#card-element');
+    this.card.addEventListener('change', function(event) {
       var displayError = document.getElementById('card-errors');
       if (event.error) {
         displayError.textContent = event.error.message;
@@ -135,7 +137,8 @@ export class PaymentPage {
       // Everything is correct. Add your form submission code here.
       this.proceed();
     }*/
-    this.stripe.createToken(card).then(function(result) {
+    this.stripe.createToken( this.card ).then((result)=> {
+      console.log('Credit Card:',result)
       if (result.error) {
         // Inform the user if there was an error.
         var errorElement = document.getElementById('card-errors');
@@ -149,7 +152,7 @@ export class PaymentPage {
   }
 
   proceed(token){
-    
+
     this.navCtrl.push('ConfirmPage', {
       item: this.item
     });

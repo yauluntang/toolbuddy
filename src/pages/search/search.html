@@ -19,27 +19,27 @@
             <option value="Electronics" ng-reflect-value="Electronics">Electronics</option>
             <option value="Other" ng-reflect--->
     <div class="row m0" *ngIf="!selectedCategory">
-      <div class="col-6 mt15" (click)="selectedCategory='lawn'">
+      <div class="col-6 mt15" (click)="selectedCategory='Lawn & Garden'">
         <div class="icon-lg icon-lawn"></div>
         <div class="center">Lawn &amp; Garden</div>
       </div>
-      <div class="col-6 mt15 " (click)="selectedCategory='construction'">
+      <div class="col-6 mt15 " (click)="selectedCategory='Construction'">
         <div class="icon-lg icon-construction"></div>
         <div class="center">Construction</div>
       </div>
-      <div class="col-6 mt15" (click)="selectedCategory='household'">
+      <div class="col-6 mt15" (click)="selectedCategory='Household'">
         <div class="icon-lg icon-household"></div>
         <div class="center">Household</div>
       </div>
-      <div class="col-6 mt15" (click)="selectedCategory='automotive'">
+      <div class="col-6 mt15" (click)="selectedCategory='Automotive'">
         <div class="icon-lg icon-automotive"></div>
         <div class="center">Automotives</div>
       </div>
-      <div class="col-6 mt15" (click)="selectedCategory='electronics'">
+      <div class="col-6 mt15" (click)="selectedCategory='Electronics'">
         <div class="icon-lg icon-electronics"></div>
         <div class="center">Electronics</div>
       </div>
-      <div class="col-6 mt15" (click)="selectedCategory='other'">
+      <div class="col-6 mt15" (click)="selectedCategory='Other'">
         <div class="icon-lg icon-other"></div>
         <div class="center">Other</div>
       </div>
@@ -51,7 +51,7 @@
 
     <div class="row m0" *ngIf="selectedCategory">
       <a class="col-12" (click)="selectedCategory=null">&lt; Back</a>
-      <item-card class="col-6 col-sm-4 col-md-4 card"  *ngFor="let item of items.itemList|itemSearch:searchterm" [item]="item" [isOwner]="false"></item-card>
+      <item-card class="col-6 col-sm-4 col-md-4 card"  *ngFor="let item of items.itemList|itemSearch:searchterm|categoryPipe:selectedCategory" [item]="item" [isOwner]="false"></item-card>
 
       <!--
       <ion-item-sliding *ngFor="let item of items.itemList">
