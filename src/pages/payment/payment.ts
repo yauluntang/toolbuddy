@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Nav, NavController, NavParams } from 'ionic-angular';
 import { Items } from '../../providers/providers';
 import { AlertController } from 'ionic-angular';
+import { User } from '../../providers/providers';
 declare var Stripe:any;
 declare var $:any;
 
@@ -18,7 +19,7 @@ export class PaymentPage {
   elements: any;
   card: any;
 
-  constructor( public navCtrl: NavController, navParams: NavParams, public items: Items, private alertCtrl: AlertController) {
+  constructor( public user:User, public navCtrl: NavController, navParams: NavParams, public items: Items, private alertCtrl: AlertController) {
     this.item = navParams.get('item');
     this.rental = {};
     this.rental.duation = 1;
@@ -152,7 +153,14 @@ export class PaymentPage {
   }
 
   proceed(token){
-
+    let cart:any = {};
+    cart.item = this.item;
+    cart.payment = {};
+    cart.uid = this.user.user.uid;
+    cart.payment.token = token;
+    cart.rental = this.rental;
+    cart.status = 'pending';
+    this.user.updateCart(cart);
     this.navCtrl.push('ConfirmPage', {
       item: this.item
     });

@@ -48,6 +48,7 @@ export class SettingsPage {
     this.isEdit = false;
     this.vendor = false;
     this.registrationSteps = 'customer';
+    
   }
 
 

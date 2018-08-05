@@ -50,7 +50,7 @@
 
 
     <div class="row m0" *ngIf="selectedCategory">
-      <a class="col-12" (click)="selectedCategory=null">&lt; Back</a>
+      <a class="m15 col-12" (click)="selectedCategory=null">&lt; Back</a>
       <item-card class="col-6 col-sm-4 col-md-4 card"  *ngFor="let item of items.itemList|itemSearch:searchterm|categoryPipe:selectedCategory" [item]="item" [isOwner]="false"></item-card>
 
       <!--
