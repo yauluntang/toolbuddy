@@ -47,6 +47,7 @@
     "ng2-validation": "^4.2.0",
     "rxjs": "5.5.2",
     "sw-toolbox": "3.6.0",
+    "web": "0.0.2",
     "zone.js": "0.8.18"
   },
   "devDependencies": {
