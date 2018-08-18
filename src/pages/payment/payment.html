@@ -43,66 +43,45 @@
     </div>
 
     <form id="payment-form">
-      <div class="form-row">
-        <label for="card-element">
-          Credit or debit card
-        </label>
-        <div id="card-element">
-          <!-- A Stripe Element will be inserted here. -->
-        </div>
+      <label>Payment Card</label>
+      <ion-list name="selectedCard" radio-group [(ngModel)]="selectedCard" >
+          <ion-item-sliding  *ngFor="let card of user.userData.cards; let index = index">
+              <ion-item>
+                  <ion-icon item-left name="card"></ion-icon>
+                  <ion-label style="color:#444;">{{card.brand}} -  {{card.last4}} {{card.exp_month}}/{{card.exp_year}} </ion-label>
+                  <ion-radio name="selectedCard" [value]="card" (ionSelect)="radioChecked(selectedCard)"></ion-radio>
+              </ion-item>
+              <ion-item-options side="right">
+                  <button ion-button color="danger" (click)="deleteCard(card, index)">Delete</button>
+              </ion-item-options>
+          </ion-item-sliding>
 
-        <!-- Used to display Element errors. -->
+          <ion-item>
+              <ion-icon item-left name="card"></ion-icon>
+              <ion-label style="color:#000;">New Card</ion-label>
+              <ion-radio name="selectedCard" [value]="newcard" (ionSelect)="radioChecked(selectedCard)"></ion-radio>
+          </ion-item>
+      </ion-list>
+
+
+      <!-- Credit Card -->
+      <div class="form-row" [hidden]="selectedCard!==newcard">
+
+        <div id="card-element">
+        </div>
+        <div class="form-check full-width mb15">
+          <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" name="saveForLater" [(ngModel)]="rental.saveForLater">
+          <span>Save For Later</span></label>
+        </div>
         <div id="card-errors" role="alert"></div>
       </div>
+
+
       <button type="button" class="btn btn-lg btn-primary btn-block mt15" (click)="confirmButton()">{{'CONFIRM'|translate}}</button>
     </form>
 
-    <!--
-      <div class="payment-form">
-        <form>
-          <div class="form-group owner">
-            <label class="form-label" for="owner">{{ 'NAME' | translate }}</label>
-            <input type="text" class="form-control" id="owner">
-          </div>
 
-
-          <div class="row">
-
-            <div class="form-group col-8" id="card-number-field">
-              <label class="form-label" for="cardNumber">{{ 'CARD_NUMBER' | translate }}</label>
-
-              <input type="text" class="form-control" id="cardNumber">
-            </div>
-            <div class="form-group col-4 CVV">
-              <label class="form-label" for="cvv">{{ 'CVV' | translate }}</label>
-              <input type="text" class="form-control" id="cvv">
-            </div>
-          </div>
-
-            <div class="form-group" id="expiration-date">
-              <label class="form-label">{{ 'EXPIRATION' | translate }}</label>
-              <div class="row">
-                <div class="col-2">
-                  <input type="text" class="form-control" maxlength="2" id="expiration-month" style="display: inline-block" placeholder="XX">
-                </div>
-                <span style="display: inline-block; font-size: 1.5em">/</span>
-                <div class="col-3">
-                  <input type="text" class="form-control" maxlength="4" id="expiration-year" placeholder="XXXX">
-                </div>
-              </div>
-            </div>
-          <div class="form-group" id="credit_cards">
-            <img src="assets/img/visa.jpg" id="visa">
-            <img src="assets/img/mastercard.jpg" id="mastercard">
-            <img src="assets/img/amex.jpg" id="amex">
-          </div>
-          <div class="form-group" id="pay-now">
-            <div class="text-center">
-              <button type="button" class="btn btn-lg btn-primary btn-block" (click)="confirmButton()">{{'CONFIRM'|translate}}</button>
-            </div>
-          </div>
-        </form>
-      </div>-->
 
   </div>
 

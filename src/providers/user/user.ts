@@ -56,6 +56,18 @@ export class User {
   updateCart( cart ){
     return new Promise( (resolve, reject)=>{
       if ( this.user ) {
+        /*
+        if ( !cart ){
+          this.userNode.child('cart').remove( (res)=>{
+            resolve(res);
+          });
+
+        }
+        else {
+          this.userNode.update( {cart: cart} ).then( (res)=>{
+            resolve(res);
+          })
+        }*/
         this.userNode.update( {cart: cart} ).then( (res)=>{
           resolve(res);
         })
@@ -99,6 +111,42 @@ export class User {
       }
     });
 
+  }
+
+  addCard ( card ){
+
+      return new Promise( (resolve, reject)=>{
+        if ( this.user ) {
+          let cards = this.userData.cards;
+          if ( !cards ){
+            cards = [];
+          }
+          cards.push(card);
+          this.userNode.update( {cards: cards} ).then( (res)=>{
+            resolve(res);
+          })
+        }
+        else {
+          reject();
+        }
+      });
+  }
+  deleteCard( card, index){
+    return new Promise( (resolve, reject)=>{
+      if ( this.user ) {
+        let cards = this.userData.cards;
+        if ( !cards ){
+          resolve(null);
+        }
+        cards.splice(index,1);
+        this.userNode.update( {cards: cards} ).then( (res)=>{
+          resolve(res);
+        })
+      }
+      else {
+        reject();
+      }
+    });
   }
 
   subscribeUser () {

@@ -18,17 +18,33 @@ export class PaymentPage {
   stripe: any;
   elements: any;
   card: any;
+  selectedCard: any;
+  newcard: any;
 
   constructor( public user:User, public navCtrl: NavController, navParams: NavParams, public items: Items, private alertCtrl: AlertController) {
     this.item = navParams.get('item');
     this.rental = {};
     this.rental.duation = 1;
+    this.rental.saveForLater = false;
     this.stripe = Stripe('pk_test_tlAh9kELCJ5jQsRX1BXkkOrm');
     this.elements = this.stripe.elements();
     this.card = null;
+    this.selectedCard = null;
+    this.newcard = {};
   }
-
+  radioChecked(item) {
+    console.log(item);
+    console.log(this.selectedCard);
+  }
   ionViewDidLoad() {
+
+    console.log( this.user.userData.cards );
+    if ( this.user.userData.cards && this.user.userData.cards.length > 0 ){
+      this.selectedCard = this.user.userData.cards[0];
+    }
+    else {
+      this.selectedCard = this.newcard;
+    }
 
     /*
     var cardNumber = $('#cardNumber');
@@ -99,71 +115,54 @@ export class PaymentPage {
 
   confirmButton() {
 
-    /*
-    var owner = $('#owner');
-    var cardNumber = $('#cardNumber');
-    var CVV = $("#cvv");
 
-    var isCardValid = $.payform.validateCardNumber(cardNumber.val());
-    var isCvvValid = $.payform.validateCardCVC(CVV.val());
-
-
-    if (owner.val().length < 5) {
-      let alert = this.alertCtrl.create({
-        title: 'Error',
-        subTitle: 'Invalid Name',
-        buttons: ['Dismiss']
+    if ( this.selectedCard === this.newcard ){
+      this.stripe.createToken( this.card ).then((result)=> {
+        console.log('Credit Card:',result)
+        if (result.error) {
+          // Inform the user if there was an error.
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          // Send the token to your server.
+          this.proceed(result.token, true);
+        }
       });
-      alert.present();
-
-
-    } else if (!isCardValid) {
-
-      let alert = this.alertCtrl.create({
-        title: 'Error',
-        subTitle: 'Invalid Card Number',
-        buttons: ['Dismiss']
-      });
-      alert.present();
-
-    } else if (!isCvvValid) {
-
-      let alert = this.alertCtrl.create({
-        title: 'Error',
-        subTitle: 'Invalid CVV',
-        buttons: ['Dismiss']
-      });
-      alert.present();
-    } else {
-      // Everything is correct. Add your form submission code here.
-      this.proceed();
-    }*/
-    this.stripe.createToken( this.card ).then((result)=> {
-      console.log('Credit Card:',result)
-      if (result.error) {
-        // Inform the user if there was an error.
-        var errorElement = document.getElementById('card-errors');
-        errorElement.textContent = result.error.message;
-      } else {
-        // Send the token to your server.
-        this.proceed(result.token);
-      }
-    });
+    }
+    else if ( this.selectedCard !== null ){
+      this.proceed( this.selectedCard, false );
+    }
 
   }
-
-  proceed(token){
+  deleteCard( card, index ){
+    if ( this.selectedCard === card ){
+      this.selectedCard = null;
+    }
+    this.user.deleteCard( card, index );
+  }
+  proceed(token , newcard){
     let cart:any = {};
-    cart.item = this.item;
+    cart.itemkey = this.item.key;
     cart.payment = {};
+    cart.timestamp = new Date();
     cart.uid = this.user.user.uid;
     cart.payment.token = token;
     cart.rental = this.rental;
     cart.status = 'pending';
-    this.user.updateCart(cart);
-    this.navCtrl.push('ConfirmPage', {
-      item: this.item
+
+    if ( newcard && this.rental.saveForLater ){
+      this.user.addCard(token.card);
+    }
+
+    this.user.updateCart(null).then(()=>{
+        this.user.updateCart(cart).then(()=>{
+          this.navCtrl.push('ConfirmPage', {
+            item: this.item
+          });
+        });
     });
+
+
   }
 
 

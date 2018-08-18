@@ -1,5 +1,5 @@
 {
-  "public": "platform/browser/www",
+  "public": "platforms/browser/www",
   "ignore": [
     "firebase.json",
     "**/.*",
